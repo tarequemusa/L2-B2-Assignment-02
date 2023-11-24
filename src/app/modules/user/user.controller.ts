@@ -1,9 +1,12 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
+// import { z } from 'zod';
 
 const createUser = async (req: Request, res: Response) => {
   try {
     const { user: userData } = req.body;
+
+    //data validation using zod
 
     const result = await UserServices.createUserIntoDB(userData);
 

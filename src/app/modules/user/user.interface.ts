@@ -10,9 +10,9 @@ export type UserAddress = {
 };
 
 export type UserOrders = {
-  productName: string;
-  price: number;
-  quantity: number;
+  productName?: string;
+  price?: number;
+  quantity?: number;
 };
 
 export type User = {
