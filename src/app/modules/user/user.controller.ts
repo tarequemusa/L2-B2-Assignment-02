@@ -1,14 +1,28 @@
 import { Request, Response } from 'express';
 import { UserServices } from './user.service';
-// import { z } from 'zod';
+import userValidationSchema from './user.validation';
 
 const createUser = async (req: Request, res: Response) => {
   try {
+    // creating a schema validation using Joi
+
     const { user: userData } = req.body;
 
-    //data validation using zod
+    const { error } = userValidationSchema.validate(userData);
 
     const result = await UserServices.createUserIntoDB(userData);
+
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 404,
+          description: 'User not found!',
+          error: error.details,
+        },
+      });
+    }
 
     res.status(200).json({
       success: true,
@@ -16,7 +30,14 @@ const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
+    });
   }
 };
 

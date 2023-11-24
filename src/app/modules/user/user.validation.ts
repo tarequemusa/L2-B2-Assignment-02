@@ -1,33 +1,44 @@
-import { z } from 'zod';
+import Joi from 'Joi';
 
-const userNameValidationSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
+const userNameValidationSchema = Joi.object({
+  firstName: Joi.string()
+    .required()
+    .trim()
+    .max(20)
+    .regex(/^[A-Z][a-z]*$/)
+    .message(
+      'First Name must start with a capital letter and contain only alphabetic characters',
+    ),
+  lastName: Joi.string()
+    .required()
+    .trim()
+    .regex(/^[a-zA-Z]+$/)
+    .message('Last Name must contain only alphabetic characters'),
 });
 
-const userAddressValidationSchema = z.object({
-  street: z.string(),
-  city: z.string(),
-  country: z.string(),
+const userAddressValidationSchema = Joi.object({
+  street: Joi.string().required(),
+  city: Joi.string().required(),
+  country: Joi.string().required(),
 });
 
-const userOrdersValidationSchema = z.object({
-  productName: z.string(),
-  price: z.number(),
-  quantity: z.number(),
+const userOrdersValidationSchema = Joi.object({
+  productName: Joi.string().required(),
+  price: Joi.number().required(),
+  quantity: Joi.number().required(),
 });
 
-export const userValidationSchema = z.object({
-  userId: z.number(),
-  username: z.string(),
-  password: z.string(),
-  fullName: userNameValidationSchema,
-  age: z.number(),
-  email: z.string().email(),
-  isActive: z.boolean(),
-  hobbies: z.tuple([z.string(), z.string()]),
-  address: userAddressValidationSchema,
-  orders: z.array(userOrdersValidationSchema),
+const userValidationSchema = Joi.object({
+  userId: Joi.number().required(),
+  username: Joi.string().required().trim().max(30),
+  password: Joi.string().required(),
+  fullName: userNameValidationSchema.required(),
+  age: Joi.number().required(),
+  email: Joi.string().email().required(),
+  isActive: Joi.boolean().required(),
+  hobbies: Joi.array().items(Joi.string()).required(),
+  address: userAddressValidationSchema.required(),
+  orders: Joi.array().items(userOrdersValidationSchema).required(),
 });
 
 export default userValidationSchema;

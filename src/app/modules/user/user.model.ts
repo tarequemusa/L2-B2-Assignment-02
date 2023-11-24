@@ -6,11 +6,20 @@ const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
-    maxlength: [20, 'Name can not be more than 20 character'],
+    trim: true,
+    maxlength: [20, 'First Name can not be more than 20 character'],
+    validate: {
+      validator: function (value: string) {
+        const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+        return firstNameStr === value;
+      },
+      message: '{VALUE} is not in capitalize format',
+    },
   },
   lastName: {
     type: String,
     required: [true, 'Last Name is Required'],
+    trim: true,
     validate: {
       validator: (value: string) => validator.isAlpha(value),
       message: '{VALUE} is not valid',
@@ -31,18 +40,24 @@ const userOrdersSchema = new Schema<UserOrders>({
 });
 
 const userSchema = new Schema<User>({
-  userId: { type: Number, required: [true, 'User ID is required'] },
-  username: { type: String, required: [true, 'Username is required'] },
+  userId: {
+    type: Number,
+    required: [true, 'User ID is required'],
+    unique: true,
+  },
+  username: {
+    type: String,
+    required: [true, 'Username is required'],
+    trim: true,
+    maxlength: [30, 'User Name can not be more than 30 character'],
+  },
   password: { type: String, required: [true, 'Password is required'] },
   fullName: userNameSchema,
   age: { type: Number, required: [true, 'Age is required'] },
   email: {
     type: String,
     required: [true, 'Email is required'],
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: '{VALUE} is not a valid email address',
-    },
+    unique: true,
   },
   isActive: {
     type: Boolean,
