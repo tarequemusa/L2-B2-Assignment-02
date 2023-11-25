@@ -83,4 +83,4 @@ Run the server on vs code:
 2. Get All Users
    → http://localhost:5000/api/users/
 3. Get Single User by ID:
-   → http://localhost:5000/api/users/64337
+   → http://localhost:5000/api/users/userID
