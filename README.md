@@ -2,7 +2,9 @@
 
 # Instructions to run the application locally.
 
-# Clone the Github code (https://github.com/tarequemusa/L2-B2-Assignment-02) and follow the following steps:
+# Clone the Github code and follow the following steps:
+
+Github Link: https://github.com/tarequemusa/L2-B2-Assignment-02
 
 # NPM Package for Visual Studio Code
 
@@ -83,4 +85,4 @@ Run the server on vs code:
 2. Get All Users
    → http://localhost:5000/api/users/
 3. Get Single User by ID:
-   → http://localhost:5000/api/users/userID
+   → http://localhost:5000/api/users/userId
