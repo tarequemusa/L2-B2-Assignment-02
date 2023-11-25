@@ -8,21 +8,33 @@ const createUser = async (req: Request, res: Response) => {
 
     const { user: userData } = req.body;
 
-    const { error } = userValidationSchema.validate(userData);
+    const { error, value } = userValidationSchema.validate(userData);
+
+    console.log({ error }, { value });
+
+    // if (error) {
+    //   res.status(500).json({
+    //     success: false,
+    //     message: 'something went wrong',
+    //     error: error.details,
+    //   });
+    // }
+
+    // if (error) {
+    //   res.status(500).json({
+    //     success: false,
+    //     message: 'User not found',
+    //     error: {
+    //       code: 404,
+    //       description: 'User not found!',
+    //       error: error.details,
+    //     },
+    //   });
+    // }
 
     const result = await UserServices.createUserIntoDB(userData);
 
-    if (error) {
-      res.status(500).json({
-        success: false,
-        message: 'User not found',
-        error: {
-          code: 404,
-          description: 'User not found!',
-          error: error.details,
-        },
-      });
-    }
+    // const { error } = userValidationSchema.validate(userData);
 
     res.status(200).json({
       success: true,

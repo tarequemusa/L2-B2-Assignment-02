@@ -1,4 +1,4 @@
-import Joi from 'Joi';
+import Joi from 'joi';
 
 const userNameValidationSchema = Joi.object({
   firstName: Joi.string()
